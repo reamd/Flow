@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="reamd">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Test</title>
+    <script src="../Flow.js"></script>
+</head>
+<body>
+<script>
+    function test1() {
+        var argLast = arguments[arguments.length - 1],
+                callback = typeof argLast === 'function' ?argLast : function() {};
+        console.log('test1');
+        callback(null);
+        //错误的情况下
+        //callback(data) 或 callback(true)
+    }
+    function test2() {
+        var argLast = arguments[arguments.length - 1],
+                callback = typeof argLast === 'function' ?argLast : function() {};
+        console.log('test2');
+        setTimeout(test1, 1000);
+        callback(null);
+    }
+    function test3() {
+        var argLast = arguments[arguments.length - 1],
+                callback = typeof argLast === 'function' ?argLast : function() {};
+        console.log('test3');
+        callback(null);
+    }
+    var  flow = new Flow();
+    var flowMap = [
+        ['test1', test1, 'test2', ''],
+        ['test2', test2, 'test3', ''],
+        ['test3', test3, '', '']
+    ];
+    flow.setMap(flowMap);
+    flow.run('test1');
+</script>
+</body>
+</html>
